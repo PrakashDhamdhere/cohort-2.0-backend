@@ -12,7 +12,7 @@ const App = () => {
   console.log("HEllo")
 
   function fetchNotes(){
-    axios.get("https://note-app-o47e.onrender.com/api/notes")
+    axios.get(`${process.env.API_URL}/api/notes`)
     .then((res)=>{
       setNotes(res.data.notes);
     })
@@ -21,7 +21,7 @@ const App = () => {
   function handleSubmin(e){
     e.preventDefault();
     
-    axios.post("https://note-app-o47e.onrender.com/api/notes", {
+    axios.post(`${process.env.API_URL}/api/notes`, {
       title,
       description
     }).then((res)=>{
@@ -35,7 +35,7 @@ const App = () => {
   function handleDelete(id){
     let check = confirm("Are you sure you want to delete this note?");
     if(check){
-      axios.delete(`https://note-app-o47e.onrender.com/api/notes/${id}`).then((res)=>{
+      axios.delete(`${process.env.API_URL}/api/notes/${id}`).then((res)=>{
         console.log(res.data.message);
         fetchNotes();
       })
@@ -43,7 +43,7 @@ const App = () => {
   }
 
   function handleEdit(id){
-    axios.get(`https://note-app-o47e.onrender.com/api/notes/${id}`).then((res)=>{
+    axios.get(`${process.env.API_URL}/api/notes/${id}`).then((res)=>{
       const note = res.data.note;
       setTitle(note.title);
       setDescription(note.description);
@@ -52,7 +52,7 @@ const App = () => {
     })
   }
   function handleUpdate(){
-    axios.patch(`https://note-app-o47e.onrender.com/api/notes/${updateNoteID}`, {
+    axios.patch(`${process.env.API_URL}/api/notes/${updateNoteID}`, {
       title,
       description
     }).then((res)=>{
