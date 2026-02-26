@@ -2,9 +2,9 @@ const postModel = require('../models/post.model');
 const ImageKit = require('imagekit');
 
 const client = new ImageKit({
-    publicKey: "public_M1Q14TsIvCsHB1sxclPeSBXGFmU=",
-    privateKey: "private_UD92+vKZFz8CAjde/wQoVhbARh0=",
-    urlEndpoint: "https://ik.imagekit.io/PrakashDhamdhere"
+    publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+    privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+    urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
 });
 
 async function createPostController(req, res){
@@ -19,8 +19,12 @@ async function createPostController(req, res){
             folder: "/insta-clone"
         });
 
-        if(response){
+        if(!response){
+            return res.status(404).json({
+                message: "image cannot uploaded"
+            })
         }
+
         const post = await postModel.create({
             caption,
             imgUrl: response.url,
@@ -28,8 +32,8 @@ async function createPostController(req, res){
         })
 
         res.status(200).json({
-            messgae: "file uploaded successfully",
-            url: response.url
+            messgae: "post created successfully",
+            post
         })
 
     } catch (error) {
