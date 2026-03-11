@@ -1,5 +1,5 @@
 const express = require('express');
-const { createPostController, getPostsController, getPostDetailsController, likePostController, unlikePostController } = require('../controllers/post.controller');
+const { createPostController, getPostsController, getPostDetailsController, likePostController, unlikePostController, getFeedController } = require('../controllers/post.controller');
 const multer = require('multer');
 const { identifyUser } = require('../middlewares/auth.middleware');
 const likeModel = require('../models/like.model');
@@ -46,6 +46,13 @@ postRouter.post('/like/:postid', identifyUser, likePostController);
  * @access Private
  */
 postRouter.post('/unlike/:postid', identifyUser, unlikePostController);
+
+/**
+ * @route GET /api/post/feed
+ * @description get all the post created in DB
+ * @access Private
+ */
+postRouter.get('/feed', identifyUser, getFeedController);
 
 
 module.exports = postRouter;

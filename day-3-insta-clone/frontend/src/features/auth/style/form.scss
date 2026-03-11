@@ -8,13 +8,16 @@ $secondary-color: rgb(36, 36, 36);
 }
 
 main {
+    max-width: 1600px;
+    margin: auto;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-inline: 1rem;
 
     .form-container {
-        min-width: 400px;
+        width: 100%;
         background-color: $primary-color;
         padding: 1rem;
         border-radius: .5rem;
@@ -64,6 +67,14 @@ main {
             .btn:hover {
                 background-color: rgb(76, 76, 255);
             }
+        }
+    }
+}
+
+@media (min-width: 900px) {
+    main {
+        .form-container{
+            width: 400px;
         }
     }
 }

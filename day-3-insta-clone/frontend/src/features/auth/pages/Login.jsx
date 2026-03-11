@@ -1,32 +1,32 @@
 import React, { useState } from 'react'
 import '../style/form.scss'
-import { Link } from 'react-router-dom'
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
 
+    const navigate = useNavigate();
+    
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    
+    const {user, loading, handleLogin} = useAuth();
 
+    
     async function submitHandler(e) {
         e.preventDefault();
-
-        axios.post("http://localhost:3000/api/auth/login", {
-            email,
-            password
-        },{withCredentials: true}).then((res)=>{
-            console.log(res.data);
-        })
+        await handleLogin(email, password)
+        navigate("/")
     }
 
   return (
-    <main>
+    <main className='.login-register-page'>
         <div className="form-container">
             <h1>Login</h1>
             <form onSubmit={submitHandler}>
-                <input onChange={(e)=>setEmail(e.target.value)} type="email" placeholder='Enter your email'/>
-                <input onChange={(e)=>setPassword(e.target.value)} type="password" placeholder='Enter your password'/>
-                <input className='btn' value="Login" type="submit" />
+                <input required onChange={(e)=>setEmail(e.target.value)} type="email" placeholder='Enter your email'/>
+                <input required onChange={(e)=>setPassword(e.target.value)} type="password" placeholder='Enter your password'/>
+                <input disabled={loading} className='btn' value={loading ? "Loading..." : "Login"} type="submit" />
             </form>
             <p>Don't have an account? <Link className='linktag' to="/register">Register</Link></p>
         </div>
